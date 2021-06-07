@@ -19,7 +19,7 @@ def timeMS():
     return round(time.time() * 1000)
 
 
-def automatonToFile(automaton, fileName):
+def automatonToFile(automaton, ba, fileName):
     """Print automatu in BA format to the file.
 
     Args:
@@ -28,23 +28,33 @@ def automatonToFile(automaton, fileName):
     originalStdout = sys.stdout
     with open(fileName, "w") as fd:
         sys.stdout = fd
-        automaton.printBa()
+        if ba:
+            automaton.printBa()
+        else:
+            automaton.printTimbuk()
         sys.stdout = originalStdout
 
 
 def main():
     """Main function. Parse automaton. Run minimization. Print results.
-    Run as: python3 reduce.py imputAutomaton.ba eqLookAhead
+    Run as: python3 reduce.py imputAutomaton -format eqLookAhead
 
     Raises:
         AttributeError: Program attribute is missing, or many attributes given.
     """
     sys.setrecursionlimit(10**5)
     # Control the count of the program arguments.
-    if len(sys.argv) < 3 or len(sys.argv) > 3:
+    if len(sys.argv) < 4 or len(sys.argv) > 4:
         raise AttributeError("Small or big count of program attributes.")
     
-    automaton = parseBa(sys.argv[1])
+    if sys.argv[2] == "-B":
+        automatonName = sys.argv[1][:-3]
+        automaton = parseBa(sys.argv[1])
+    elif sys.argv[2] == "-T":
+        automatonName = sys.argv[1][:-7]
+        automaton = parseTimbuk(sys.argv[1])
+    else:
+        raise AttributeError("Unknown attribute {}".format(sys.argv[2]))
 
 
     # Calculate automaton state befor minimization.
@@ -55,10 +65,10 @@ def main():
     startTime = timeMS()
     automaton.cleanDeadStates()
     # automaton.makeCentralFinalState()
-    solverMinimization(automaton, int(sys.argv[2]))
+    solverMinimization(automaton, int(sys.argv[3]))
     automaton.cleanDeadStates()
     # Print automaton to file.
-    automatonToFile(automaton, "{}-{}_solver.ba".format(sys.argv[1][:-3], sys.argv[2]))
+    automatonToFile(automaton, (sys.argv[2] == "-B"), "{}-{}_solver.{}".format(automatonName, sys.argv[3], "ba" if sys.argv[2] == "-B" else "timbuk"))
     duration = timeMS() - startTime
     # Calculate automaton state after minimization.
     statesCountAfter = len(automaton.states)
@@ -66,7 +76,7 @@ def main():
 
     # Print automaton states to stdout.
 
-    print("Result automaton was save as {}-{}_solver.ba".format(sys.argv[1][:-3], sys.argv[2]))
+    print("Result automaton was save as {}-{}_solver.{}".format(automatonName, sys.argv[3], "ba" if sys.argv[2] == "-B" else "timbuk"))
     print("States before: {}".format(statesCountBefore))
     print("States after: {}".format(statesCountAfter))
     print("Transitions before: {}".format(transCountBefore))
