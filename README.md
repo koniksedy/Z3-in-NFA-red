@@ -40,4 +40,4 @@ reduce.py is used for the reduction of the NFA automata in BA of Timbuk format. 
 - _format_: -B for BA format and -T for Timbuk format
 - _EQLookAhead_: -Lookahead of language equivalence approximation. If the EQLookAhead is set to 1, the two states of the automaton are equivalent only if the equivalence is confirmed to the maximal distance 1 from the examined states. A bigger number means more accurate results, but slower calculation.
 
-The program saves reduced automaton to the as imputAutomaton-_EQLookAhed_-solver._format_
+The program saves reduced automaton to the as imputAutomaton-_EQLookAhead_-solver._format_
