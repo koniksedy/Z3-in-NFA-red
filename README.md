@@ -5,6 +5,7 @@ This program reduces nondeterministic finite automata (NFA) size using SAT solve
 The program supports automata in BA and Timbuk format.
 
 Author: Michal Šedý <xsedym02@stud.fit.vutbr.cz>
+
 Supervisor: Mrg. Lukáš Holík, Ph.D.
 
 ## BA format
