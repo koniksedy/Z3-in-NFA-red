@@ -1,6 +1,6 @@
 # Z3-in-NFA-reduction
 
-This program reduces nondeterministic finite automata (NFA) size using SAT solver Z3. The program was implemented for evaluation of newly investigated techniques of reduction of the size of NFA, which was presented in https://wis.fit.vutbr.cz/FIT/st/rp.php/rp/2020/BP/23436.pdf. 
+This program reduces nondeterministic finite automata (NFA) size using SAT solver Z3. The program was implemented for evaluation of newly investigated techniques of reduction of the size of NFA, which was presented in https://www.fit.vut.cz/study/thesis/23436/. 
 
 The program supports automata in BA and Timbuk format.
 
